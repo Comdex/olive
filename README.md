@@ -12,7 +12,7 @@
 [wercker]: https://app.wercker.com/project/bykey/3edc447f6194909364e46e1de66254a3
 [coverage]: https://codecov.io/github/mitsuse/olive
 
-Online learning algorithms implemented in [Golang][golang].
+Online algorithms for machine learning implemented in [Golang][golang].
 
 [golang]: http://golang.org/
 
