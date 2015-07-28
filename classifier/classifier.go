@@ -20,6 +20,8 @@ type Classifier struct {
 	weights Matrix
 }
 
+// Create a new classifier with the given number of classes and dimensions of features.
+// The generate classifier has a weight matrix with zeros.
 func New(classSize, dimensions int) *Classifier {
 	c := &Classifier{
 		// TODO: Replace the weights with the immutable version of dense matrix.
