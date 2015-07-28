@@ -35,6 +35,16 @@ func New(classSize, dimensions int) *Classifier {
 	return c
 }
 
+// Return the size of classes.
+func (c *Classifier) ClassSize() int {
+	return c.weights.Rows()
+}
+
+// Return the dimensions of features.
+func (c *Classifier) Dimensions() int {
+	return c.weights.Columns()
+}
+
 // Update the weight matrix.
 // The new weight matrix should have same shape as the old one.
 func (c *Classifier) Update(weights Matrix) *Classifier {

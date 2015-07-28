@@ -47,6 +47,40 @@ func TestNewPanicsForNonPositiveClassSize(t *testing.T) {
 	New(test.classSize, test.dimensions)
 }
 
+func TestClassSizeReturnsTheSizeOfClasses(t *testing.T) {
+	test := constructionTest{
+		classSize:  4,
+		dimensions: 8,
+	}
+
+	c := New(test.classSize, test.dimensions)
+
+	if classSize := c.ClassSize(); classSize != test.classSize {
+		t.Fatalf(
+			"The size of classes should be %d, but %d is returned.",
+			test.classSize,
+			classSize,
+		)
+	}
+}
+
+func TestDimensionsReturnsTheDimensionsOfFeatures(t *testing.T) {
+	test := constructionTest{
+		classSize:  4,
+		dimensions: 8,
+	}
+
+	c := New(test.classSize, test.dimensions)
+
+	if dimensions := c.Dimensions(); dimensions != test.dimensions {
+		t.Fatalf(
+			"The dimensions of features should be %d, but %d is returned.",
+			test.dimensions,
+			dimensions,
+		)
+	}
+}
+
 func TestUpdateSucceedsForMatricesWithSameShape(t *testing.T) {
 	classSize, dimensions := 4, 8
 	test := dense.Zeros(classSize, dimensions)
