@@ -12,6 +12,7 @@ import (
 )
 
 const (
+	INVALID_CLASS_SIZE       = validates.INVALID_CLASS_SIZE
 	NON_FEATURE_MATRIX_PANIC = validates.NON_FEATURE_MATRIX_PANIC
 )
 
@@ -23,6 +24,8 @@ type Classifier struct {
 // Create a new classifier with the given number of classes and dimensions of features.
 // The generate classifier has a weight matrix with zeros.
 func New(classSize, dimensions int) *Classifier {
+	validates.ShouldBeOneOrMoreClasses(classSize)
+
 	c := &Classifier{
 		// TODO: Replace the weights with the immutable version of dense matrix.
 		weights: dense.Zeros(classSize, dimensions),

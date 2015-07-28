@@ -5,8 +5,17 @@ import (
 )
 
 const (
+	INVALID_CLASS_SIZE       = "INVALID_CLASS_SIZE"
 	NON_FEATURE_MATRIX_PANIC = "NON_FEATURE_MATRIX_PANIC"
 )
+
+func ShouldBeOneOrMoreClasses(classSize int) {
+	if classSize > 0 {
+		return
+	}
+
+	panic(INVALID_CLASS_SIZE)
+}
 
 func ShouldBeFeature(matrix Matrix) {
 	if matrix.Rows() == 1 {
