@@ -11,6 +11,10 @@ import (
 	"github.com/mitsuse/olive/internal/validates"
 )
 
+const (
+	NON_FEATURE_MATRIX_PANIC = validates.NON_FEATURE_MATRIX_PANIC
+)
+
 // Classifier is an implementation of multi-class linear classifier.
 type Classifier struct {
 	weights Matrix
