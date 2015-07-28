@@ -8,6 +8,7 @@ import (
 
 	. "github.com/mitsuse/matrix-go"
 	"github.com/mitsuse/matrix-go/dense"
+	"github.com/mitsuse/olive/internal/validates"
 )
 
 // Classifier is an implementation of multi-class linear classifier.
@@ -25,7 +26,8 @@ func New(classSize, dimensions int) *Classifier {
 }
 
 func (c *Classifier) Classify(feature Matrix) (label int) {
-	// TODO: feature should be (d x 1) matrix.
+	validates.MatrixShouldBeFeature(feature)
+
 	scores := c.weights.Multiply(feature.Transpose())
 
 	score := math.Inf(-1)
