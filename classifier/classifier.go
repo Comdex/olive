@@ -31,6 +31,7 @@ func New(classSize, dimensions int) *Classifier {
 	return c
 }
 
+// Classify the given feature matrix into one of the classes.
 func (c *Classifier) Classify(feature Matrix) (label int) {
 	validates.ShouldBeFeature(feature)
 
