@@ -40,9 +40,11 @@ func TestNewPanicsForNonPositiveClassSize(t *testing.T) {
 	}
 
 	defer func() {
-		if p := recover(); p == nil {
-			t.Fatal("The size of claasses should be one or more.")
+		if p := recover(); p == INVALID_CLASS_SIZE {
+			return
 		}
+
+		t.Fatal("Update should use \"validate.ShouldBeOneOrMoreClasses\".")
 	}()
 	New(test.classSize, test.dimensions)
 }
