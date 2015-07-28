@@ -26,7 +26,7 @@ func New(classSize, dimensions int) *Classifier {
 }
 
 func (c *Classifier) Classify(feature Matrix) (label int) {
-	validates.MatrixShouldBeFeature(feature)
+	validates.ShouldBeFeature(feature)
 
 	scores := c.weights.Multiply(feature.Transpose())
 

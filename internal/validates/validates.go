@@ -8,7 +8,7 @@ const (
 	NON_FEATURE_MATRIX_PANIC = "NON_FEATURE_MATRIX_PANIC"
 )
 
-func MatrixShouldBeFeature(matrix Matrix) {
+func ShouldBeFeature(matrix Matrix) {
 	if matrix.Rows() == 1 {
 		return
 	}
