@@ -31,7 +31,7 @@ Olive uses the following libraries:
 
 - [`mitsuse/matrix-go (v0.1.0)`][repo-matrix-go]
 
-[repo-matrix-go]: https://github.com/mitsuse/matrix-go
+[repo-matrix-go]: https://github.com/mitsuse/matrix-go/tree/v0.1.0
 
 
 ## Features
@@ -62,7 +62,7 @@ c := classifier.New(classSize, dimensions)
 #### Classification
 
 Apply [`(*Classifier).Classify`][doc-Classifier.Classify] to a feature matrix by classifying it.
-The feature matrix is typed as [`Matrix`][doc-Matrix] of mitsuse/matrix-go.
+The feature matrix is typed as [`Matrix`][doc-Matrix] of [`mitsuse/matrix-go`][repo-matrix-go].
 
 [doc-Classifier.Classify]: http://godoc.org/github.com/mitsuse/olive/classifier/#Classifier.Classify
 [doc-Matrix]: http://godoc.org/github.com/mitsuse/matrix-go/#Matrix
