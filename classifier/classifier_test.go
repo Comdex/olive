@@ -3,12 +3,18 @@ package classifier
 import (
 	"testing"
 
+	. "github.com/mitsuse/matrix-go"
 	"github.com/mitsuse/matrix-go/dense"
 )
 
 type constructionTest struct {
 	classSize  int
 	dimensions int
+}
+
+type classificationTest struct {
+	feature Matrix
+	class   int
 }
 
 func TestNewSucceeds(t *testing.T) {
@@ -71,4 +77,45 @@ func TestUpdatePanicsByIncompatibleWeights(t *testing.T) {
 		t.Fatal("Update should use \"validate.ShouldBeCompatibleWeights\".")
 	}()
 	c.Update(test)
+}
+
+func TestClassifyAssignsHighestScoredClassToFeature(t *testing.T) {
+	classSize, dimensions := 4, 8
+
+	test := classificationTest{
+		feature: dense.New(1, 8)(0, 1, 0.5, -1, 0, 0, 2, 0),
+		class:   2,
+	}
+
+	weights := dense.New(classSize, dimensions)(
+		0, 0, 0, 0, 0, 0, 0, 0,
+		0, -1, -1, 1, 0, 0, -1, 0,
+		0, 1, 1, 0, 0, 0, 1, 0,
+		0, 1, 1, 1, 0, 0, 1, 0,
+	)
+
+	c := New(classSize, dimensions).Update(weights)
+
+	if class := c.Classify(test.feature); class != test.class {
+		t.Fatalf(
+			"Classifier should assign %d to the feature, but %d is assigned.",
+			test.class,
+			class,
+		)
+	}
+}
+
+func TestClassifyPanicsByNonFeatureMatrix(t *testing.T) {
+	classSize, dimensions := 4, 8
+
+	test := dense.Zeros(classSize, dimensions+1)
+
+	defer func() {
+		if p := recover(); p == NON_FEATURE_MATRIX_PANIC {
+			return
+		}
+
+		t.Fatal("Update should use \"validate.ShouldBeFeature\".")
+	}()
+	New(classSize, dimensions).Classify(test)
 }
