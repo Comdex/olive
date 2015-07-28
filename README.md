@@ -17,6 +17,65 @@ Online algorithms for machine learning implemented in [Golang][golang].
 [golang]: http://golang.org/
 
 
+## Installation
+
+For installation, execute the following command:
+
+```
+$ go get github.com/mitsuse/olive
+```
+
+### Requirements
+
+Olive uses the following libraries:
+
+- [`mitsuse/matrix-go (v0.1.0)`][repo-matrix-go]
+
+[repo-matrix-go]: https://github.com/mitsuse/matrix-go/tree/v0.1.0
+
+
+## Features
+
+### Algorithms
+
+Not provided yet.
+
+
+### Classifier
+
+Olive provides an implementation of multi-class linear classifier.
+
+
+#### Creation
+
+Call [`classifier.New`][doc-classifier.New] with the size of classes and the dimensions of features.
+
+[doc-classifier.New]: http://godoc.org/github.com/mitsuse/olive/classifier/#New
+
+```go
+classSize, dimensions := 4, 8
+
+c := classifier.New(classSize, dimensions)
+```
+
+
+#### Classification
+
+Apply [`(*Classifier).Classify`][doc-Classifier.Classify] to a feature matrix by classifying it.
+The feature matrix is typed as [`Matrix`][doc-Matrix] of [`mitsuse/matrix-go`][repo-matrix-go].
+
+[doc-Classifier.Classify]: http://godoc.org/github.com/mitsuse/olive/classifier/#Classifier.Classify
+[doc-Matrix]: http://godoc.org/github.com/mitsuse/matrix-go/#Matrix
+
+```go
+features := dense.New(classSize, dimensions)(
+    0, 0, 1, 1, 0.5, 0.1, -2, 3, 0,
+)
+
+class := c.Classify(features)
+```
+
+
 ## License
 
 Please read [LICENSE.txt](LICENSE.txt).
