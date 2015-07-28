@@ -6,7 +6,7 @@ import (
 	"github.com/mitsuse/matrix-go/dense"
 )
 
-func TestMatrixShouldBeFeatureSucceedsForFeature(t *testing.T) {
+func TestShouldBeFeatureSucceedsForFeature(t *testing.T) {
 	test := dense.Zeros(1, 1)
 
 	defer func() {
@@ -17,7 +17,7 @@ func TestMatrixShouldBeFeatureSucceedsForFeature(t *testing.T) {
 	ShouldBeFeature(test)
 }
 
-func TestMatrixShouldBeFeaturePanicsForNonFeature(t *testing.T) {
+func TestShouldBeFeaturePanicsForNonFeature(t *testing.T) {
 	test := dense.Zeros(4, 1)
 
 	defer func() {
