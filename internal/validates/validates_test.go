@@ -94,7 +94,7 @@ func TestShouldBeCompatibleWeightPanicsForMatricsWithDifferentClassSize(t *testi
 	ShouldBeCompatibleWeights(test.old, test.update)
 }
 
-func TestShouldBeCompatibleWeightPanicsForMatricsWithDifferentDimmensions(t *testing.T) {
+func TestShouldBeCompatibleWeightPanicsForMatricsWithDifferentDimensions(t *testing.T) {
 	test := weightUpdateTest{
 		old:    dense.Zeros(4, 8),
 		update: dense.Zeros(4, 10),
@@ -105,7 +105,7 @@ func TestShouldBeCompatibleWeightPanicsForMatricsWithDifferentDimmensions(t *tes
 			return
 		}
 
-		t.Fatal("The new weights should have same dimmensions as the old one.")
+		t.Fatal("The new weights should have same dimensions as the old one.")
 	}()
 	ShouldBeCompatibleWeights(test.old, test.update)
 }

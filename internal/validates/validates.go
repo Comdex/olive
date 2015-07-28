@@ -27,10 +27,10 @@ func ShouldBeFeature(matrix Matrix) {
 }
 
 func ShouldBeCompatibleWeights(old, update Matrix) {
-	oldClassSize, oldDimmensions := old.Shape()
-	updateClassSize, updateDimmensions := update.Shape()
+	oldClassSize, oldDimensions := old.Shape()
+	updateClassSize, updateDimensions := update.Shape()
 
-	if oldClassSize == updateClassSize && oldDimmensions == updateDimmensions {
+	if oldClassSize == updateClassSize && oldDimensions == updateDimensions {
 		return
 	}
 

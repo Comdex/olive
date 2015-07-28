@@ -28,7 +28,7 @@ func TestNewSucceeds(t *testing.T) {
 			return
 		}
 
-		t.Fatal("New should not panic for one or more classes and positive dimmensions.")
+		t.Fatal("New should not panic for one or more classes and positive dimensions.")
 	}()
 	New(test.classSize, test.dimensions)
 }
