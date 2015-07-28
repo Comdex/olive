@@ -17,7 +17,10 @@ func TestShouldBeOneOrMoreClassesSucceedsForPositiveSizedClasses(t *testing.T) {
 
 	defer func() {
 		if p := recover(); p != nil {
-			t.Fatal("classes-size validation should not cause any panic for positve size.")
+			t.Fatalf(
+				"classes-size validation should not cause any panic for positve size: %s",
+				p,
+			)
 		}
 	}()
 	ShouldBeOneOrMoreClasses(test)
@@ -27,11 +30,9 @@ func TestShouldBeOneOrMoreClassesPanicsForNonPositiveSizedClasses(t *testing.T) 
 	test := 0
 
 	defer func() {
-		if p := recover(); p == INVALID_CLASS_SIZE {
-			return
+		if p := recover(); p != INVALID_CLASS_SIZE {
+			t.Fatalf("%s should be caused, but %s causes", INVALID_CLASS_SIZE, p)
 		}
-
-		t.Fatal("The size of classes should be one or more.")
 	}()
 	ShouldBeOneOrMoreClasses(test)
 }
@@ -41,7 +42,10 @@ func TestShouldBeFeatureSucceedsForFeature(t *testing.T) {
 
 	defer func() {
 		if p := recover(); p != nil {
-			t.Fatal("Feature validation should not cause any panic for feature matirx.")
+			t.Fatalf(
+				"Feature validation should not cause any panic for feature matirx: %s",
+				p,
+			)
 		}
 	}()
 	ShouldBeFeature(test)
@@ -51,11 +55,9 @@ func TestShouldBeFeaturePanicsForNonFeature(t *testing.T) {
 	test := dense.Zeros(4, 1)
 
 	defer func() {
-		if p := recover(); p == NON_FEATURE_MATRIX_PANIC {
-			return
+		if p := recover(); p != NON_FEATURE_MATRIX_PANIC {
+			t.Fatalf("%s should be caused, but %s causes", NON_FEATURE_MATRIX_PANIC, p)
 		}
-
-		t.Fatal("Feature should be a matrix which the number of rows equals to 1.")
 	}()
 	ShouldBeFeature(test)
 }
@@ -67,13 +69,12 @@ func TestShouldBeCompatibleWeightSucceedsForSameShapeMatrices(t *testing.T) {
 	}
 
 	defer func() {
-		if p := recover(); p == nil {
-			return
+		if p := recover(); p != nil {
+			t.Fatalf(
+				"Weights validation should not cause any panic for the same shape one: %s",
+				p,
+			)
 		}
-
-		t.Fatal(
-			"The validation should not cause any panic for matrices with same shape.",
-		)
 	}()
 	ShouldBeCompatibleWeights(test.old, test.update)
 }
@@ -85,11 +86,9 @@ func TestShouldBeCompatibleWeightPanicsForMatricsWithDifferentClassSize(t *testi
 	}
 
 	defer func() {
-		if p := recover(); p == INCOMPATIBLE_WEIGHTS_PANIC {
-			return
+		if p := recover(); p != INCOMPATIBLE_WEIGHTS_PANIC {
+			t.Fatalf("%s should be caused, but %s causes", INCOMPATIBLE_WEIGHTS_PANIC, p)
 		}
-
-		t.Fatal("The new weights should have same size of classes as the old one.")
 	}()
 	ShouldBeCompatibleWeights(test.old, test.update)
 }
@@ -101,11 +100,9 @@ func TestShouldBeCompatibleWeightPanicsForMatricsWithDifferentDimensions(t *test
 	}
 
 	defer func() {
-		if p := recover(); p == INCOMPATIBLE_WEIGHTS_PANIC {
-			return
+		if p := recover(); p != INCOMPATIBLE_WEIGHTS_PANIC {
+			t.Fatalf("%s should be caused, but %s causes", INCOMPATIBLE_WEIGHTS_PANIC, p)
 		}
-
-		t.Fatal("The new weights should have same dimensions as the old one.")
 	}()
 	ShouldBeCompatibleWeights(test.old, test.update)
 }
