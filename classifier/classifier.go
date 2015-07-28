@@ -12,8 +12,9 @@ import (
 )
 
 const (
-	INVALID_CLASS_SIZE       = validates.INVALID_CLASS_SIZE
-	NON_FEATURE_MATRIX_PANIC = validates.NON_FEATURE_MATRIX_PANIC
+	INVALID_CLASS_SIZE         = validates.INVALID_CLASS_SIZE
+	NON_FEATURE_MATRIX_PANIC   = validates.NON_FEATURE_MATRIX_PANIC
+	INCOMPATIBLE_WEIGHTS_PANIC = validates.INCOMPATIBLE_WEIGHTS_PANIC
 )
 
 // Classifier is an implementation of multi-class linear classifier.
@@ -30,6 +31,16 @@ func New(classSize, dimensions int) *Classifier {
 		// TODO: Replace the weights with the immutable version of dense matrix.
 		weights: dense.Zeros(classSize, dimensions),
 	}
+
+	return c
+}
+
+// Update the weight matrix.
+// The new weight matrix should have same shape as the old one.
+func (c *Classifier) Update(weights Matrix) *Classifier {
+	validates.ShouldBeCompatibleWeights(c.weights, weights)
+
+	c.weights = weights
 
 	return c
 }

@@ -2,6 +2,8 @@ package classifier
 
 import (
 	"testing"
+
+	"github.com/mitsuse/matrix-go/dense"
 )
 
 type constructionTest struct {
@@ -37,4 +39,36 @@ func TestNewPanicsForNonPositiveClassSize(t *testing.T) {
 		}
 	}()
 	New(test.classSize, test.dimensions)
+}
+
+func TestUpdateSucceedsForMatricesWithSameShape(t *testing.T) {
+	classSize, dimensions := 4, 8
+	test := dense.Zeros(classSize, dimensions)
+
+	c := New(classSize, dimensions)
+
+	defer func() {
+		if p := recover(); p == nil {
+			return
+		}
+
+		t.Fatal("Update should not panic for the weights as same shape as the old.")
+	}()
+	c.Update(test)
+}
+
+func TestUpdatePanicsByIncompatibleWeights(t *testing.T) {
+	classSize, dimensions := 4, 8
+	test := dense.Zeros(classSize+1, dimensions)
+
+	c := New(classSize, dimensions)
+
+	defer func() {
+		if p := recover(); p == INCOMPATIBLE_WEIGHTS_PANIC {
+			return
+		}
+
+		t.Fatal("Update should use \"validate.ShouldBeCompatibleWeights\".")
+	}()
+	c.Update(test)
 }

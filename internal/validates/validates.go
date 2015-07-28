@@ -5,8 +5,9 @@ import (
 )
 
 const (
-	INVALID_CLASS_SIZE       = "INVALID_CLASS_SIZE"
-	NON_FEATURE_MATRIX_PANIC = "NON_FEATURE_MATRIX_PANIC"
+	INVALID_CLASS_SIZE         = "INVALID_CLASS_SIZE"
+	NON_FEATURE_MATRIX_PANIC   = "NON_FEATURE_MATRIX_PANIC"
+	INCOMPATIBLE_WEIGHTS_PANIC = "INCOMPATIBLE_WEIGHTS_PANIC"
 )
 
 func ShouldBeOneOrMoreClasses(classSize int) {
@@ -23,4 +24,15 @@ func ShouldBeFeature(matrix Matrix) {
 	}
 
 	panic(NON_FEATURE_MATRIX_PANIC)
+}
+
+func ShouldBeCompatibleWeights(old, update Matrix) {
+	oldClassSize, oldDimmensions := old.Shape()
+	updateClassSize, updateDimmensions := update.Shape()
+
+	if oldClassSize == updateClassSize && oldDimmensions == updateDimmensions {
+		return
+	}
+
+	panic(INCOMPATIBLE_WEIGHTS_PANIC)
 }

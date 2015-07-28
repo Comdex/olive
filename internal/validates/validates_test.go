@@ -3,8 +3,14 @@ package validates
 import (
 	"testing"
 
+	. "github.com/mitsuse/matrix-go"
 	"github.com/mitsuse/matrix-go/dense"
 )
+
+type weightUpdateTest struct {
+	old    Matrix
+	update Matrix
+}
 
 func TestShouldBeOneOrMoreClassesSucceedsForPositiveSizedClasses(t *testing.T) {
 	test := 4
@@ -52,4 +58,54 @@ func TestShouldBeFeaturePanicsForNonFeature(t *testing.T) {
 		t.Fatal("Feature should be a matrix which the number of rows equals to 1.")
 	}()
 	ShouldBeFeature(test)
+}
+
+func TestShouldBeCompatibleWeightSucceedsForSameShapeMatrices(t *testing.T) {
+	test := weightUpdateTest{
+		old:    dense.Zeros(4, 8),
+		update: dense.Zeros(4, 8),
+	}
+
+	defer func() {
+		if p := recover(); p == nil {
+			return
+		}
+
+		t.Fatal(
+			"The validation should not cause any panic for matrices with same shape.",
+		)
+	}()
+	ShouldBeCompatibleWeights(test.old, test.update)
+}
+
+func TestShouldBeCompatibleWeightPanicsForMatricsWithDifferentClassSize(t *testing.T) {
+	test := weightUpdateTest{
+		old:    dense.Zeros(4, 8),
+		update: dense.Zeros(2, 8),
+	}
+
+	defer func() {
+		if p := recover(); p == INCOMPATIBLE_WEIGHTS_PANIC {
+			return
+		}
+
+		t.Fatal("The new weights should have same size of classes as the old one.")
+	}()
+	ShouldBeCompatibleWeights(test.old, test.update)
+}
+
+func TestShouldBeCompatibleWeightPanicsForMatricsWithDifferentDimmensions(t *testing.T) {
+	test := weightUpdateTest{
+		old:    dense.Zeros(4, 8),
+		update: dense.Zeros(4, 10),
+	}
+
+	defer func() {
+		if p := recover(); p == INCOMPATIBLE_WEIGHTS_PANIC {
+			return
+		}
+
+		t.Fatal("The new weights should have same dimmensions as the old one.")
+	}()
+	ShouldBeCompatibleWeights(test.old, test.update)
 }
