@@ -4,8 +4,6 @@ Package "classifier" provides an implementation of multi-class linear classifier
 package classifier
 
 import (
-	"math"
-
 	. "github.com/mitsuse/matrix-go"
 	"github.com/mitsuse/matrix-go/dense"
 	"github.com/mitsuse/olive/internal/validates"
@@ -56,20 +54,10 @@ func (c *Classifier) Update(weights Matrix) *Classifier {
 }
 
 // Classify the given feature matrix into one of the classes.
-func (c *Classifier) Classify(feature Matrix) (label int) {
+func (c *Classifier) Classify(feature Matrix) (class int) {
 	validates.ShouldBeFeature(feature)
 
-	scores := c.weights.Multiply(feature.Transpose())
+	_, class, _ = c.weights.Multiply(feature.Transpose()).Max()
 
-	score := math.Inf(-1)
-
-	// TODO: Use "(Matrix).Max()" instead of finding the max element with "(Matrix).All()".
-	for cursor := scores.All(); cursor.HasNext(); {
-		if s, l, _ := cursor.Get(); score < s || label < 0 {
-			score = s
-			label = l
-		}
-	}
-
-	return label
+	return class
 }
