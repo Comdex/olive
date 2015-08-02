@@ -4,15 +4,23 @@ Package "classifier" provides an implementation of multi-class linear classifier
 package classifier
 
 import (
+	"io"
+
 	. "github.com/mitsuse/matrix-go"
 	"github.com/mitsuse/matrix-go/dense"
 	"github.com/mitsuse/olive/internal/validates"
+	"github.com/mitsuse/serial-go"
 )
 
 const (
 	INVALID_CLASS_SIZE         = validates.INVALID_CLASS_SIZE
 	NON_FEATURE_MATRIX_PANIC   = validates.NON_FEATURE_MATRIX_PANIC
 	INCOMPATIBLE_WEIGHTS_PANIC = validates.INCOMPATIBLE_WEIGHTS_PANIC
+)
+
+const (
+	id      string = "github/mitsuse/olive/classifier"
+	version byte   = 0
 )
 
 // Classifier is an implementation of multi-class linear classifier.
@@ -31,6 +39,48 @@ func New(classSize, dimensions int) *Classifier {
 	}
 
 	return c
+}
+
+// Deserialize a classifier from the given reader.
+// This accepts data generated with (*Classifier).Serialize.
+func Deserialize(reader io.Reader) (*Classifier, error) {
+	r := serial.NewReader(id, version, reader)
+
+	r.ReadId()
+	r.ReadVersion()
+
+	if err := r.Error(); err != nil {
+		return nil, err
+	}
+
+	weights, err := dense.Deserialize(reader)
+	if err != nil {
+		return nil, err
+	}
+
+	c := &Classifier{
+		weights: weights,
+	}
+
+	return c, nil
+}
+
+// Serialize this classifier and write it by using the given writer.
+func (c *Classifier) Serialize(writer io.Writer) error {
+	w := serial.NewWriter(id, version, writer)
+
+	w.WriteId()
+	w.WriteVersion()
+
+	if err := w.Error(); err != nil {
+		return err
+	}
+
+	if err := c.weights.Serialize(writer); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Return the size of classes.
