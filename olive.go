@@ -15,15 +15,15 @@ type Learner interface {
 
 type Instance struct {
 	feature Matrix
-	label   int
+	class   int
 }
 
-func NewInstance(feature Matrix, label int) *Instance {
+func NewInstance(feature Matrix, class int) *Instance {
 	validates.ShouldBeFeature(feature)
 
 	i := &Instance{
 		feature: feature,
-		label:   label,
+		class:   class,
 	}
 
 	return i
@@ -33,6 +33,6 @@ func (i *Instance) Feature() Matrix {
 	return i.feature
 }
 
-func (i *Instance) Label() int {
-	return i.label
+func (i *Instance) Class() int {
+	return i.class
 }

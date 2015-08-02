@@ -13,7 +13,7 @@ func TestInstanceFailsForNonFeatureMatirx(t *testing.T) {
 		1, 0, -1,
 	)
 
-	label := 4
+	class := 4
 
 	defer func() {
 		if p := recover(); p == classifier.NON_FEATURE_MATRIX_PANIC {
@@ -22,13 +22,13 @@ func TestInstanceFailsForNonFeatureMatirx(t *testing.T) {
 
 		t.Fatal("NewInstance should use \"validate.ShouldBeFeature\".")
 	}()
-	NewInstance(m, label)
+	NewInstance(m, class)
 }
 
 func TestInstanceFeature(t *testing.T) {
 	feature := dense.New(1, 6)(0, 1, 2, 1, 0, -1)
-	label := 4
-	instance := NewInstance(feature, label)
+	class := 4
+	instance := NewInstance(feature, class)
 
 	m := dense.New(1, 6)(0, 1, 2, 1, 0, -1)
 
@@ -39,14 +39,14 @@ func TestInstanceFeature(t *testing.T) {
 	t.Fatal("The feature vector should not be modified on creating instance.")
 }
 
-func TestInstanceLabel(t *testing.T) {
+func TestInstanceclass(t *testing.T) {
 	feature := dense.New(1, 6)(0, 1, 2, 1, 0, -1)
-	label := 4
-	instance := NewInstance(feature, label)
+	class := 4
+	instance := NewInstance(feature, class)
 
-	if instance.Label() == label {
+	if instance.Class() == class {
 		return
 	}
 
-	t.Fatal("The label should not be modified on creating instance.")
+	t.Fatal("The class should not be modified on creating instance.")
 }
