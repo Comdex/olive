@@ -25,7 +25,9 @@ func (p *Perceptron) Learn(
 			class := c.Classify(instance.Feature())
 
 			if class != instance.Class() {
-				// TODO: Update the weights.
+				// TODO: Support the immutable version of matrix.
+				c.Weights().Row(instance.Class()).Add(instance.Feature())
+				c.Weights().Row(class).Subtract(instance.Feature())
 			}
 		}
 	}
