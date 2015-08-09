@@ -64,7 +64,7 @@ c := classifier.New(classSize, dimensions)
 
 #### Classification
 
-Apply [`(*Classifier).Classify`][doc-Classifier.Classify] to a feature matrix by classifying it.
+Classify an instance by applying [`(*Classifier).Classify`][doc-Classifier.Classify] to its feature matrix.
 The feature matrix is typed as [`Matrix`][doc-Matrix] of [`mitsuse/matrix-go`][repo-matrix-go].
 
 [doc-Classifier.Classify]: http://godoc.org/github.com/mitsuse/olive/classifier/#Classifier.Classify
