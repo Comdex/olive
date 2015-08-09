@@ -38,7 +38,10 @@ Olive uses the following libraries:
 
 ### Algorithms
 
-Not provided yet.
+Olive provides learning algorithms as follow:
+
+- Perceptron
+
 
 
 ### Classifier
@@ -73,6 +76,32 @@ features := dense.New(classSize, dimensions)(
 )
 
 class := c.Classify(features)
+```
+
+
+#### Learn a classifier
+
+Learner such as perceptron can update classifier by using the given training data.
+
+```go
+classSize, dimensions := 2, 6
+iterations := 3
+
+feature := dense.New(1, dimensions)
+
+// training data (pairs of a feature vector and its class).
+instances := []*olive.Instance{
+    olive.NewInstance(feature(1, 1, 1, 0, 0, 0), 0),
+    olive.NewInstance(feature(1, 1, 0, 0, 0, 0), 0),
+    olive.NewInstance(feature(0, 0, 0, 1, 1, 1), 1),
+    olive.NewInstance(feature(0, 0, 0, 0, 1, 1), 1),
+}
+
+// Initialize a learner
+learner := perceptron.New(iterations)
+
+// Update the given classifier with the training data and return an updated classifier.
+c := learner.Learn(classifier.New(classSize, dimensions), instances)
 ```
 
 
