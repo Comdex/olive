@@ -49,6 +49,20 @@ func TestNewPanicsForNonPositiveClassSize(t *testing.T) {
 	New(test.classSize, test.dimensions)
 }
 
+func TestWeightsReturnsTheWeightsMatrix(t *testing.T) {
+	test := constructionTest{
+		classSize:  4,
+		dimensions: 8,
+	}
+
+	c := New(test.classSize, test.dimensions)
+	zeroMatrix := dense.Zeros(test.classSize, test.dimensions)
+
+	if weights := c.Weights(); !weights.Equal(zeroMatrix) {
+		t.Fatalf("A %d x %d matrix should be returned as the weights matrix.", 4, 8)
+	}
+}
+
 func TestClassSizeReturnsTheSizeOfClasses(t *testing.T) {
 	test := constructionTest{
 		classSize:  4,

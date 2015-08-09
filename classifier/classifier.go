@@ -83,6 +83,11 @@ func (c *Classifier) Serialize(writer io.Writer) error {
 	return nil
 }
 
+// Return the weights matrix.
+func (c *Classifier) Weights() Matrix {
+	return c.weights
+}
+
 // Return the size of classes.
 func (c *Classifier) ClassSize() int {
 	return c.weights.Rows()
