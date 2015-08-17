@@ -8,7 +8,7 @@ import (
 	"errors"
 	"io"
 
-	. "github.com/mitsuse/matrix-go"
+	"github.com/mitsuse/matrix-go"
 	"github.com/mitsuse/matrix-go/dense"
 	"github.com/mitsuse/olive/internal/validates"
 )
@@ -28,7 +28,7 @@ const (
 // Classifier is an implementation of multi-class linear classifier.
 type Classifier struct {
 	initialized bool
-	weights     Matrix
+	weights     matrix.Matrix
 }
 
 // Create a new classifier with the given number of classes and dimensions of features.
@@ -83,17 +83,16 @@ func (c *Classifier) UnmarshalJSON(b []byte) error {
 }
 
 func (c *Classifier) MarshalJSON() ([]byte, error) {
-	// TODO: Implement "dense.from(Matrix)" to avoid type assertion.
 	jsonObject := &classifierJson{
 		Version: version,
-		Weights: c.weights.(*dense.DenseMatrix),
+		Weights: dense.Convert(c.weights),
 	}
 
 	return json.Marshal(jsonObject)
 }
 
 // Return the weights matrix.
-func (c *Classifier) Weights() Matrix {
+func (c *Classifier) Weights() matrix.Matrix {
 	return c.weights
 }
 
@@ -109,7 +108,7 @@ func (c *Classifier) Dimensions() int {
 
 // Update the weight matrix.
 // The new weight matrix should have same shape as the old one.
-func (c *Classifier) Update(weights Matrix) *Classifier {
+func (c *Classifier) Update(weights matrix.Matrix) *Classifier {
 	validates.ShouldBeCompatibleWeights(c.weights, weights)
 
 	c.weights = weights
@@ -118,7 +117,7 @@ func (c *Classifier) Update(weights Matrix) *Classifier {
 }
 
 // Classify the given feature matrix into one of the classes.
-func (c *Classifier) Classify(feature Matrix) (class int) {
+func (c *Classifier) Classify(feature matrix.Matrix) (class int) {
 	validates.ShouldBeFeature(feature)
 
 	_, class, _ = c.weights.Multiply(feature.Transpose()).Max()

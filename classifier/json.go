@@ -10,6 +10,6 @@ const (
 )
 
 type classifierJson struct {
-	Version int                `json:"version"`
-	Weights *dense.DenseMatrix `json:"weights"`
+	Version int           `json:"version"`
+	Weights *dense.Matrix `json:"weights"`
 }

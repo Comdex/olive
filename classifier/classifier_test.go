@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	. "github.com/mitsuse/matrix-go"
+	"github.com/mitsuse/matrix-go"
 	"github.com/mitsuse/matrix-go/dense"
 )
 
@@ -15,7 +15,7 @@ type constructionTest struct {
 }
 
 type classificationTest struct {
-	feature Matrix
+	feature matrix.Matrix
 	class   int
 }
 
@@ -208,10 +208,10 @@ func TestUnmarshalJSONFailsWithAlreadyInitializedMatrix(t *testing.T) {
 func TestUnmarshalJSONFailsWithIncompatibleVersion(t *testing.T) {
 	c := &classifierJson{
 		Version: 99999,
-		Weights: dense.Zeros(4, 8).(*dense.DenseMatrix),
+		Weights: dense.Zeros(4, 8),
 	}
 
-	d := &classifierJson{}
+	d := &Classifier{}
 
 	b, _ := json.Marshal(c)
 
